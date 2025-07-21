@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Private Notes</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Your Tekken Ball Notes</h1>
+    <div id="notesArea" style="display: none;">
+      <textarea id="notes" rows="10" cols="50" placeholder="Write your private Tekken Ball notes..."></textarea>
+      <br>
+      <button onclick="savePrivateNotes()">Save Notes</button>
+    </div>
+    <div id="noAccess" style="display: none;">
+      <p>Access denied. You must log in first.</p>
+      <a href="index.html">Return to login</a>
+    </div>
+  </div>
+  <script src="assets/script.js"></script>
+</body>
+</html>
