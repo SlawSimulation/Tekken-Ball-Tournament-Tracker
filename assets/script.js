@@ -101,3 +101,51 @@ if (window.location.pathname.includes("leaderboard.html")) {
     tbody.appendChild(tr);
   }
 }
+
+if (window.location.pathname.includes("tracker.html")) {
+  const list = document.getElementById("friendItems");
+
+  const name = localStorage.getItem("playerName");
+  const friendKey = `friends_${name}`;
+  const friends = JSON.parse(localStorage.getItem(friendKey)) || [];
+
+  function renderFriends() {
+    list.innerHTML = "";
+    friends.forEach(friend => {
+      const wins = parseInt(localStorage.getItem(`wins_${friend}`)) || 0;
+      const losses = parseInt(localStorage.getItem(`losses_${friend}`)) || 0;
+      const total = wins + losses;
+      const ratio = total > 0 ? Math.round((wins / total) * 100) : 0;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${friend}</strong> — Wins: ${wins}, Losses: ${losses}, Win Ratio: ${ratio}%
+        <button onclick="removeFriend('${friend}')">Remove</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  window.addFriend = function () {
+    const input = document.getElementById("friendName");
+    const friend = input.value.trim();
+    if (friend && !friends.includes(friend)) {
+      friends.push(friend);
+      localStorage.setItem(friendKey, JSON.stringify(friends));
+      input.value = "";
+      renderFriends();
+    }
+  }
+
+  window.removeFriend = function (friend) {
+    const index = friends.indexOf(friend);
+    if (index > -1) {
+      friends.splice(index, 1);
+      localStorage.setItem(friendKey, JSON.stringify(friends));
+      renderFriends();
+    }
+  }
+
+  renderFriends();
+}
+
