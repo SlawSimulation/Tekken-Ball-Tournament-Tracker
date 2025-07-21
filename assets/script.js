@@ -6,7 +6,7 @@ function loadProfile() {
   window.location.href = "profile.html";
 }
 
-// On notes.html
+// NOTES PAGE
 if (window.location.pathname.includes("notes.html")) {
   const name = localStorage.getItem("playerName");
   const notesArea = document.getElementById("notesArea");
@@ -28,4 +28,47 @@ function savePrivateNotes() {
   const notes = document.getElementById("notes").value;
   localStorage.setItem(`notes_${name}`, notes);
   alert("Notes saved securely to your browser.");
+}
+
+// PROFILE PAGE
+if (window.location.pathname.includes("profile.html")) {
+  const name = localStorage.getItem("playerName");
+  const section = document.getElementById("profileSection");
+  const noAccess = document.getElementById("noAccess");
+
+  if (!name) {
+    section.style.display = "none";
+    noAccess.style.display = "block";
+  } else {
+    document.getElementById("playerTitle").textContent = `${name}'s Profile`;
+    section.style.display = "block";
+    noAccess.style.display = "none";
+    loadStats(name);
+  }
+}
+
+function loadStats(name) {
+  const wins = parseInt(localStorage.getItem(`wins_${name}`)) || 0;
+  const losses = parseInt(localStorage.getItem(`losses_${name}`)) || 0;
+  document.getElementById("wins").textContent = wins;
+  document.getElementById("losses").textContent = losses;
+  const total = wins + losses;
+  const ratio = total > 0 ? Math.round((wins / total) * 100) : 0;
+  document.getElementById("ratio").textContent = `${ratio}%`;
+}
+
+function addWin() {
+  const name = localStorage.getItem("playerName");
+  const winsKey = `wins_${name}`;
+  const newWins = (parseInt(localStorage.getItem(winsKey)) || 0) + 1;
+  localStorage.setItem(winsKey, newWins);
+  loadStats(name);
+}
+
+function addLoss() {
+  const name = localStorage.getItem("playerName");
+  const lossesKey = `losses_${name}`;
+  const newLosses = (parseInt(localStorage.getItem(lossesKey)) || 0) + 1;
+  localStorage.setItem(lossesKey, newLosses);
+  loadStats(name);
 }
