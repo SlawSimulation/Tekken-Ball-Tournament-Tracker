@@ -72,3 +72,32 @@ function addLoss() {
   localStorage.setItem(lossesKey, newLosses);
   loadStats(name);
 }
+
+if (window.location.pathname.includes("leaderboard.html")) {
+  const tbody = document.getElementById("leaderboardBody");
+
+  const players = Object.keys(localStorage)
+    .filter(key => key.startsWith("wins_"))
+    .map(key => key.replace("wins_", ""));
+
+  const rows = players.map(name => {
+    const wins = parseInt(localStorage.getItem(`wins_${name}`)) || 0;
+    const losses = parseInt(localStorage.getItem(`losses_${name}`)) || 0;
+    const total = wins + losses;
+    const ratio = total > 0 ? Math.round((wins / total) * 100) : 0;
+    return { name, wins, losses, ratio };
+  });
+
+  rows.sort((a, b) => b.ratio - a.ratio);
+
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.name}</td>
+      <td>${row.wins}</td>
+      <td>${row.losses}</td>
+      <td>${row.ratio}%</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
