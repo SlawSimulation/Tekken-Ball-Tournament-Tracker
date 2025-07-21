@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tekken Ball Tracker</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <h1>Tekken Ball Tracker</h1>
-  <input type="text" id="profileName" placeholder="Enter Your Player Name">
-  <button onclick="loadProfile()">Go to Profile</button>
-
+  <div class="container">
+    <h1>Tekken Ball Tracker</h1>
+    <input type="text" id="profileName" placeholder="Enter Your Player Name">
+    <button onclick="loadProfile()">Go to Profile</button>
+    <div class="nav">
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="tracker.html">Friends/Teams</a>
+      <a href="tournaments.html">Tournaments</a>
+      <a href="notes.html">Notes (Private)</a>
+    </div>
+  </div>
   <script src="assets/script.js"></script>
 </body>
 </html>
