@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tournaments</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Upcoming Tournaments</h2>
 
+    <div id="tournamentForm">
+      <input type="text" id="tournamentName" placeholder="Tournament Name" />
+      <input type="date" id="tournamentDate" />
+      <input type="text" id="tournamentLocation" placeholder="Location" />
+      <button onclick="addTournament()">Add Tournament</button>
+    </div>
+
+    <ul id="tournamentList"></ul>
+  </div>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
