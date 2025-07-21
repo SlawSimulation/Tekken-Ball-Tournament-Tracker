@@ -146,6 +146,62 @@ if (window.location.pathname.includes("tracker.html")) {
     }
   }
 
+  if (window.location.pathname.includes("tournaments.html")) {
+  const name = localStorage.getItem("playerName");
+  const list = document.getElementById("tournamentList");
+
+  if (!name) {
+    list.innerHTML = "<p>Please log in to your profile first.</p>";
+  } else {
+    const key = `tournaments_${name}`;
+    let tournaments = JSON.parse(localStorage.getItem(key)) || [];
+
+    function renderTournaments() {
+      list.innerHTML = "";
+      tournaments.forEach((t, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${t.name}</strong> — ${t.date} at ${t.location}
+          <button onclick="removeTournament(${index})">Remove</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    window.addTournament = function () {
+      const nameInput = document.getElementById("tournamentName");
+      const dateInput = document.getElementById("tournamentDate");
+      const locationInput = document.getElementById("tournamentLocation");
+
+      const tData = {
+        name: nameInput.value.trim(),
+        date: dateInput.value,
+        location: locationInput.value.trim()
+      };
+
+      if (!tData.name || !tData.date || !tData.location) {
+        return alert("Please fill in all fields.");
+      }
+
+      tournaments.push(tData);
+      localStorage.setItem(key, JSON.stringify(tournaments));
+      nameInput.value = "";
+      dateInput.value = "";
+      locationInput.value = "";
+      renderTournaments();
+    };
+
+    window.removeTournament = function (index) {
+      tournaments.splice(index, 1);
+      localStorage.setItem(key, JSON.stringify(tournaments));
+      renderTournaments();
+    };
+
+    renderTournaments();
+  }
+}
+
+
   renderFriends();
 }
 
