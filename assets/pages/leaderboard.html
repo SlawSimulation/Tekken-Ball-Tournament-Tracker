@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tekken Ball Leaderboard</title>
   <link rel="stylesheet" href="../../styles.css">
-  <script defer src="../../script.js"></script>
-  <script defer src="../../assets/nav.js"></script> <!-- ✅ New include -->
 </head>
 <body>
-
-  <div id="navbar"></div>
-
-  <h1>Leaderboard</h1>
-  <div id="leaderboard-container"></div>
-
+  <div class="container">
+    <h1>Leaderboard</h1>
+    <div id="leaderboard-container"></div>
+      <table style="width: 100%; text-align: left;">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Win Ratio</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    <div class="nav">
+      <a href="index.html">Back to Login</a>
+      <a href="profile.html">My Profile</a>
+    </div>
+  </div>
+  <script src="../../script.js"></script>
+  <script defer src="../assets/nav.js"></script>
 </body>
 </html>
