@@ -1,8 +1,16 @@
-function loadProfile() {
-  const name = document.getElementById('profileName').value.trim();
-  if (!name) return alert("Enter your player name");
+document.addEventListener("DOMContentLoaded", () => {
+  const name = localStorage.getItem("playerName");
+  if (name) {
+    document.getElementById("welcomeMsg").innerText = `Welcome, ${name}`;
+    const savedNotes = localStorage.getItem(`${name}_notes`);
+    if (savedNotes) document.getElementById("notes").value = savedNotes;
+    // Load stats from JSON later
+  }
+});
 
-  // Save to localStorage and redirect
-  localStorage.setItem("playerName", name);
-  window.location.href = "profile.html";
+function saveNotes() {
+  const name = localStorage.getItem("playerName");
+  const notes = document.getElementById("notes").value;
+  localStorage.setItem(`${name}_notes`, notes);
+  alert("Notes saved!");
 }
