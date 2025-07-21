@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Your Stats</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tekken Ball Profile</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <h1 id="welcomeMsg"></h1>
-  <div id="statsContainer"></div>
-
-  <h2>Your Notes</h2>
-  <textarea id="notes" placeholder="Write your Tekken Ball strats..."></textarea>
-  <button onclick="saveNotes()">Save Notes</button>
-
+  <div class="container">
+    <h1 id="playerTitle">My Profile</h1>
+    <div id="profileSection" style="display: none;">
+      <p><strong>Wins:</strong> <span id="wins">0</span></p>
+      <p><strong>Losses:</strong> <span id="losses">0</span></p>
+      <p><strong>Win Ratio:</strong> <span id="ratio">0%</span></p>
+      <button onclick="addWin()">+1 Win</button>
+      <button onclick="addLoss()">+1 Loss</button>
+    </div>
+    <div id="noAccess" style="display: none;">
+      <p>Access denied. Please log in first.</p>
+      <a href="index.html">Return to login</a>
+    </div>
+  </div>
   <script src="assets/script.js"></script>
 </body>
 </html>
