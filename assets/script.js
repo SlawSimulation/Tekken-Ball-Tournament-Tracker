@@ -1,38 +1,38 @@
-// Shared script for all pages
-function loadProfile() {
-  const name = document.getElementById('profileName').value.trim();
-  if (!name) return alert("Enter your player name");
-  localStorage.setItem("playerName", name);
+// --- AUTH ---
+function registerUser() {
+  const username = document.getElementById("registerName").value.trim();
+  const password = document.getElementById("registerPassword").value;
+  if (!username || !password) return alert("Please enter both username and password.");
+
+  if (localStorage.getItem(`user_${username}`)) {
+    return alert("Username already exists.");
+  }
+
+  localStorage.setItem(`user_${username}`, password);
+  alert("Registration successful! Please log in.");
+}
+
+function loginUser() {
+  const username = document.getElementById("loginName").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const storedPassword = localStorage.getItem(`user_${username}`);
+
+  if (!storedPassword || storedPassword !== password) {
+    return alert("Invalid username or password.");
+  }
+
+  localStorage.setItem("currentUser", username);
   window.location.href = "profile.html";
 }
 
-// NOTES PAGE
-if (window.location.pathname.includes("notes.html")) {
-  const name = localStorage.getItem("playerName");
-  const notesArea = document.getElementById("notesArea");
-  const noAccess = document.getElementById("noAccess");
-
-  if (!name) {
-    notesArea.style.display = "none";
-    noAccess.style.display = "block";
-  } else {
-    document.getElementById("notes").value = localStorage.getItem(`notes_${name}`) || "";
-    notesArea.style.display = "block";
-    noAccess.style.display = "none";
-  }
+function logoutUser() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "index.html";
 }
 
-function savePrivateNotes() {
-  const name = localStorage.getItem("playerName");
-  if (!name) return;
-  const notes = document.getElementById("notes").value;
-  localStorage.setItem(`notes_${name}`, notes);
-  alert("Notes saved securely to your browser.");
-}
-
-// PROFILE PAGE
+// --- PROFILE ---
 if (window.location.pathname.includes("profile.html")) {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("currentUser");
   const section = document.getElementById("profileSection");
   const noAccess = document.getElementById("noAccess");
 
@@ -58,7 +58,7 @@ function loadStats(name) {
 }
 
 function addWin() {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("currentUser");
   const winsKey = `wins_${name}`;
   const newWins = (parseInt(localStorage.getItem(winsKey)) || 0) + 1;
   localStorage.setItem(winsKey, newWins);
@@ -66,13 +66,38 @@ function addWin() {
 }
 
 function addLoss() {
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("currentUser");
   const lossesKey = `losses_${name}`;
   const newLosses = (parseInt(localStorage.getItem(lossesKey)) || 0) + 1;
   localStorage.setItem(lossesKey, newLosses);
   loadStats(name);
 }
 
+// --- NOTES PAGE ---
+if (window.location.pathname.includes("notes.html")) {
+  const name = localStorage.getItem("currentUser");
+  const notesArea = document.getElementById("notesArea");
+  const noAccess = document.getElementById("noAccess");
+
+  if (!name) {
+    notesArea.style.display = "none";
+    noAccess.style.display = "block";
+  } else {
+    document.getElementById("notes").value = localStorage.getItem(`notes_${name}`) || "";
+    notesArea.style.display = "block";
+    noAccess.style.display = "none";
+  }
+}
+
+function savePrivateNotes() {
+  const name = localStorage.getItem("currentUser");
+  if (!name) return;
+  const notes = document.getElementById("notes").value;
+  localStorage.setItem(`notes_${name}`, notes);
+  alert("Notes saved securely to your browser.");
+}
+
+// --- LEADERBOARD PAGE ---
 if (window.location.pathname.includes("leaderboard.html")) {
   const tbody = document.getElementById("leaderboardBody");
 
@@ -102,10 +127,10 @@ if (window.location.pathname.includes("leaderboard.html")) {
   }
 }
 
+// --- FRIEND TRACKER PAGE ---
 if (window.location.pathname.includes("tracker.html")) {
   const list = document.getElementById("friendItems");
-
-  const name = localStorage.getItem("playerName");
+  const name = localStorage.getItem("currentUser");
   const friendKey = `friends_${name}`;
   const friends = JSON.parse(localStorage.getItem(friendKey)) || [];
 
@@ -146,8 +171,12 @@ if (window.location.pathname.includes("tracker.html")) {
     }
   }
 
-  if (window.location.pathname.includes("tournaments.html")) {
-  const name = localStorage.getItem("playerName");
+  renderFriends();
+}
+
+// --- TOURNAMENTS PAGE ---
+if (window.location.pathname.includes("tournaments.html")) {
+  const name = localStorage.getItem("currentUser");
   const list = document.getElementById("tournamentList");
 
   if (!name) {
@@ -200,8 +229,3 @@ if (window.location.pathname.includes("tracker.html")) {
     renderTournaments();
   }
 }
-
-
-  renderFriends();
-}
-
